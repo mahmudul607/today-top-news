@@ -1,20 +1,21 @@
 
 import PropTypes from 'prop-types';
-import ReadMoreText from './ReadMoreText';
+
 import { FaEye, FaRegBookmark, FaShareAlt   } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
-const NewsCard = ({ news }) => {
+const NewsCard = ({news}) => {
 
-    const simpleText = news.details;
+    const { details, image_url, author, title, _id } = news;
     return (
         <div className='p-2'>
             <div className='p-2 flex items-center '>
                 <div className="w-10 rounded-full py-4 mr-4">
-                    <img className='rounded-full' alt="Tailwind CSS Navbar component" src={news.author.img} />
+                    <img className='rounded-full' alt="Tailwind CSS Navbar component" src={author.img} />
                 </div>
                 <div className='mr-4'>
                     <p>{news.author.name}</p>
-                    <span>{news.author.published_date}</span>
+                    <span>{author.published_date}</span>
 
 
                 </div>
@@ -27,12 +28,20 @@ const NewsCard = ({ news }) => {
             </div>
             <div className="card bg-base-100 shadow-xl">
                 <div>
-                    <span className='text-xl font-bold'>{news.title}</span>
+                    <span className='text-xl font-bold'>{title}</span>
                 </div>
-                <figure className=''><img src={news.image_url} alt="Shoes" /></figure>
+                <figure className=''><img src={image_url} alt="Shoes" /></figure>
                 <div className="card-body">
                   
-                    <p ><ReadMoreText text={simpleText} maxLength={100}></ReadMoreText></p>
+                    <p > {
+                    
+                            details.length > 200 ? 
+                             <p>{details.slice(0, 200)} <Link className='text-green-600 font-bold' to={`/news/${_id}`}>Read More...</Link></p>
+                            :
+                            <p>{details}</p>
+                
+                        } 
+                </p>
                     <div className='flex justify-between'>
                         <div className="rating">
                           

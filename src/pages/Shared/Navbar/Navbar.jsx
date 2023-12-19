@@ -1,12 +1,19 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom"
+import { AuthContext } from "../../../AuthProvider/AuthProvider";
 
 
 const Navbar = () => {
+    const { user, logOutUser } = useContext(AuthContext);
     const navLinks = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/about">About</NavLink></li>
         <li><NavLink to="/career">Career</NavLink></li>
     </>
+
+    const logOut = () =>{
+        logOutUser();
+    }
     return (
         <div className="navbar bg-base-100 py-6">
             <div className="navbar-start">
@@ -38,15 +45,21 @@ const Navbar = () => {
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
                             <a className="justify-between">
-                                Profile
-                                <span className="badge">New</span>
+                               <p>{user ?
+                               user.email 
+                               :
+                               "Profile"}</p>
+                               
                             </a>
                         </li>
                         <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        <li><a onClick={logOut}>Logout</a></li>
                     </ul>
                 </div>
-                <Link to='/login' className="btn btn-neutral">Login</Link>
+                
+                        <Link to='/login' className={`btn btn-neutral text-sm h-10 min-h-0 ${user && "hidden" }`}>Login</Link>
+                   
+                
             </div>
         </div>
     );
